@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ada Pesan Untukmu, Shafa ❤️</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter (default) and Dancing Script (for headings) -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS for romantic effects and animations */
+        :root {
+            --primary-color: #ff69b4; /* Hot Pink */
+            --secondary-color: #ffe4e1; /* Misty Rose */
+            --text-color-dark: #333;
+            --text-color-light: #fff;
+            --bg-gradient-start: #ffafbd; /* Light Pink */
+            --bg-gradient-end: #ffc3a0; /* Peach */
+            --envelope-bg-start: #fceabb; /* Light gold */
+            --envelope-bg-end: #f8b500; /* Darker gold */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color-dark);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-y: auto; /* Allow vertical scroll for main content */
+            position: relative; /* For confetti and heart rain */
+            opacity: 0; /* Hidden initially for body fade-in */
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+
+        /* Overlay for background image if used */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Dark overlay for text readability */
+            z-index: 0;
+        }
+
+        /* Envelope Screen Styles */
+        #envelope-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--envelope-bg-start) 0%, var(--envelope-bg-end) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* On top of everything */
+            cursor: pointer;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        #envelope-screen.fade-out {
+            opacity: 0;
+            transform: scale(1.1);
+        }
+
+        .envelope-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 3rem 4rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transform: scale(0.9);
+            animation: pulse 2s infinite alternate;
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(0.98); }
+            to { transform: scale(1.02); }
+        }
+
+        .envelope-content h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .envelope-content p {
+            font-size: 1.8rem;
+            color: var(--text-color-dark);
+            font-weight: 600;
+        }
+
+        /* Main Container Styles */
+        .container {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            backdrop-filter: blur(5px);
+            border-radius: 1.5rem; /* More rounded */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+            padding: 2.5rem; /* Increased padding */
+            max-width: 90%;
+            width: 800px; /* Fixed width for larger screens */
+            text-align: center;
+            margin: 2rem 0; /* Add vertical margin for small screens */
+            /* Removed opacity and animation from here, now handled by body */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3.5rem; /* Larger */
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-color-dark);
+        }
+
+        .typing-text::after {
+            content: '|';
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        /* Typing effect animation */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color); }
+        }
+
+        .photo-carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            max-height: 400px; /* Max height for images */
+            object-fit: contain; /* Ensure entire image is visible */
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .carousel-item p {
+            font-size: 1.1rem;
+            color: var(--text-color-dark);
+            font-style: italic;
+            max-width: 80%; /* Limit width for captions */
+        }
+
+        .carousel-nav button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-nav button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .carousel-nav .prev { left: 1rem; }
+        .carousel-nav .next { right: 1rem; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: var(--primary-color);
+        }
+
+        .message-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 1.5rem;
+            color: var(--text-color-dark);
+        }
+
+        .gemini-feature-btn {
+            background: linear-gradient(45deg, #ff8c00, #ff69b4); /* Orange-Pink gradient */
+            color: var(--text-color-light);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 9999px; /* Pill shape */
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .gemini-feature-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .gemini-reason-box {
+            background-color: var(--secondary-color);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-top: 1rem;
+            color: var(--text-color-dark);
+            font-size: 1rem;
+            line-height: 1.5;
+            font-style: italic;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            box-shadow: inset 0 0 10px rgba(255, 105, 180, 0.1);
+            min-height: 50px; /* Ensure space even when empty */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #surpriseBtn {
+            background: linear-gradient(45deg, var(--primary-color), #ff8c00); /* Orange-Pink gradient */
+            color: var(--text-color-light);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 9999px; /* Pill shape */
+            font-size: 1.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        #surpriseBtn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        #surpriseContent {
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            color: var(--text-color-dark);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            display: none; /* Hidden by default */
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color); /* Default color */
+            border-radius: 50%;
+            opacity: 0;
+            animation: fall 3s ease-out forwards;
+            pointer-events: none; /* Allow clicks through confetti */
+            z-index: 9999;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Heart Rain animation */
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            animation: heartFall 5s linear forwards;
+            pointer-events: none;
+            z-index: 999; /* Below envelope, above main content */
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        @keyframes heartFall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Love Trail Cursor Effect */
+        .trail-heart {
+            position: absolute;
+            font-size: 1.2rem; /* Ukuran hati */
+            color: var(--primary-color); /* Warna hati */
+            pointer-events: none; /* Penting agar tidak mengganggu interaksi lain */
+            transform: translate(-50%, -50%); /* Pusatkan hati pada kursor */
+            animation: fadeOutTrail 1s forwards; /* Animasi memudar */
+            opacity: 0; /* Mulai dengan opacity 0, akan diatur 1 di JS */
+            z-index: 9998; /* Di atas konten tapi di bawah confetti */
+        }
+
+        @keyframes fadeOutTrail {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); } /* Sedikit membesar saat memudar */
+        }
+
+        /* Blooming Flower Effect */
+        .blooming-flower {
+            position: absolute;
+            font-size: 2.5rem; /* Ukuran bunga */
+            pointer-events: none;
+            opacity: 0;
+            animation: bloomUp 3s ease-out forwards;
+            z-index: 9999; /* Di atas semua konten */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        @keyframes bloomUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translateY(-20vh) scale(1); } /* Muncul dan membesar */
+            100% { transform: translateY(-100vh) scale(0.8); opacity: 0; } /* Bergerak ke atas dan memudar */
+        }
+
+        .rose-stem {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0;
+            transition: opacity 0.7s, transform 1s;
+            filter: drop-shadow(0 4px 12px rgba(255,0,80,0.15));
+        }
+        .rose-stem.center {
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 1 !important;
+        }
+        .rose-stem.bloom {
+            opacity: 1;
+        }
+
+        /* Countdown Effect Styles */
+        #countdown-effect {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ff69b4;
+            background: rgba(255,255,255,0.85);
+            padding: 2rem 4rem;
+            border-radius: 2rem;
+            z-index: 100000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            animation: scaleIn 0.5s ease-out;
+        }
+        @keyframes scaleIn {
+            from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                width: 95%; /* Adjust width for smaller screens */
+            }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.5rem; }
+            .carousel-item img { max-height: 250px; }
+            .carousel-item p { font-size: 0.9rem; }
+            .message-content p { font-size: 1rem; }
+            .gemini-feature-btn { font-size: 0.9rem; padding: 0.7rem 1.2rem; }
+            #surpriseBtn { font-size: 1rem; padding: 0.8rem 1.5rem; }
+            .envelope-content h1 { font-size: 3rem; }
+            .envelope-content p { font-size: 1.4rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.2rem; }
+            .carousel-item img { max-height: 200px; }
+            .carousel-nav button { width: 30px; height: 30px; font-size: 1.2rem; }
+            .envelope-content h1 { font-size: 2.5rem; }
+            .envelope-content p { font-size: 1.2rem; }
+            .envelope-content { padding: 2rem 3rem; }
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Envelope Screen -->
+    <div id="envelope-screen">
+        <div class="envelope-content">
+            <h1>❤️</h1>
+            <p>Untukmu, Minul</p>
+            <p class="text-sm mt-4 text-gray-600">(Klik untuk membuka)</p>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" src="https://github.com/fajarghifar/happybirthday/raw/main/music/hbd.mpeg" loop preload="auto"></audio>
+    <!-- Fallback Play Button if Autoplay is blocked -->
+    <button id="playMusicBtn" class="fixed bottom-4 right-4 bg-pink-500 text-white p-3 rounded-full shadow-lg z-50 hidden">
+        ▶️ Putar Musik
+    </button>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero mb-8">
+            <h1 class="text-pink-600">Selamat Ulang Tahun, sayang!</h1>
+            <h2 class="text-gray-700">Untuk wanita paling luar biasa di duniaku.</h2>
+        </section>
+
+        <!-- Photo Carousel Section -->
+        <section class="photo-carousel">
+            <div class="carousel-inner">
+                <!-- GAMBAR DI SINI MENGGUNAKAN PATH LOKAL SESUAI PERMINTAAN ANDA -->
+                <!-- Pastikan Anda memiliki folder 'img' di lokasi yang sama dengan file HTML ini, -->
+                <!-- dan file gambar (wa.jpeg, wa1.jpeg, wa2.jpeg, wa3.jpeg) ada di dalamnya. -->
+                <div class="carousel-item">
+                    <img src="img/wa1.jpeg" alt="Shafa tersenyum manis di lingkungan yang cerah, mengenakan pakaian kasual, suasana hangat dan penuh kebahagiaan, latar belakang tampak taman hijau, ekspresi wajah bahagia dan penuh cinta">
+                    <p>Senyummu selalu menerangi hariku, seperti saat ini.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="img/wa3.jpeg" alt="Shafa dengan Ekspresi Lucu">
+                    <p>Setiap ekspresimu adalah karya seni yang membuatku jatuh cinta.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="img/wa.jpeg" alt="Momen Bersama Shafa">
+                    <p>Momen-momen yang kita lewati bersama adalah harta tak ternilai.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="img/wa2.jpeg" alt="Shafa yang Menawan">
+                    <p>Matamu memancarkan keindahan yang tak pernah pudar.</p>
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+            </div>
+            <div class="carousel-dots"></div>
+        </section>
+
+        <!-- Main Message Section -->
+        <section class="message-content text-gray-800">
+            <p id="typed-message" class="text-lg leading-relaxed"></p>
+        </section>
+
+        <!-- Gemini API Feature: Reason Why I Love You -->
+        <section class="gemini-feature-section mt-6">
+            <button id="generateReasonBtn" class="gemini-feature-btn">
+                ✨ Klik untuk Alasan Mengapa Aku Mencintaimu ✨
+            </button>
+            <div id="geminiReasonOutput" class="gemini-reason-box">
+                <!-- Alasan romantis akan muncul di sini -->
+                Klik tombol di atas untuk mendapatkan alasan mengapa seseorang mencintai pasangannya!
+            </div>
+            <div id="loadingIndicator" class="hidden text-gray-600 mt-2">
+                Memuat alasan romantis...
+            </div>
+        </section>
+
+        <!-- Surprise Button Section -->
+        <section class="surprise-section mt-8">
+            <button id="surpriseBtn" class="transition-all duration-300">
+                Klik untuk Kejutan!
+            </button>
+            <div id="surpriseContent" class="hidden">
+                <p class="text-center font-semibold text-xl mb-4">Dan satu hal lagi...</p>
+                <p>Cintaku, setiap hari bersamamu adalah hadiah. Kamu adalah cahaya dalam hidupku, alasan di balik senyumku, dan impian yang menjadi nyata. Aku akan selalu ada untukmu, mencintaimu lebih dari kata-kata bisa ungkapkan, dan membuat setiap hari kita penuh kebahagiaan. Selamat ulang tahun, sayang. Aku cinta kamu!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Rose Bouquet Animation Div -->
+    <div id="rose-bouquet-animation" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:100001; pointer-events:none; justify-content:center; align-items:center;"></div>
+
+    <script>
+        // JavaScript for interactivity and animations
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const envelopeScreen = document.getElementById('envelope-screen');
+            const mainContainer = document.querySelector('.container');
+            const bgMusic = document.getElementById('bg-music');
+            const playMusicBtn = document.getElementById('playMusicBtn');
+
+            // --- Typing Effect for Main Message ---
+            const typedMessageElement = document.getElementById('typed-message');
+            const fullMessage = `Cintaku, di hari spesialmu ini, aku ingin kamu tahu betapa berartinya dirimu bagiku. Setiap tawa, setiap pelukan, setiap momen yang kita bagi adalah harta yang tak ternilai. Kamu mengisi hidupku dengan kebahagiaan, inspirasi, dan cinta yang tak terbatas. Aku bersyukur untuk setiap detik bersamamu. Semoga hari ini dan tahun-tahun mendatang dipenuhi dengan kebahagiaan, kesehatan, dan semua impianmu menjadi kenyataan. Kamu pantas mendapatkan semua yang terbaik di dunia ini.`;
+            let messageIndex = 0;
+            const typingSpeed = 50; // milliseconds per character
+
+            function typeWriter() {
+                if (messageIndex < fullMessage.length) {
+                    typedMessageElement.innerHTML += fullMessage.charAt(messageIndex);
+                    messageIndex++;
+                    setTimeout(typeWriter, typingSpeed);
+                } else {
+                    typedMessageElement.classList.remove('typing-text'); // Remove typing cursor after completion
+                }
+            }
+
+            // --- Photo Carousel Logic ---
+            const carouselInner = document.querySelector('.carousel-inner');
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const prevBtn = document.querySelector('.carousel-nav .prev');
+            const nextBtn = document.querySelector('.carousel-nav .next');
+            const carouselDots = document.querySelector('.carousel-dots');
+            let currentIndex = 0;
+            let autoSlideInterval;
+            const slideDuration = 5000; // 5 seconds
+
+            // Create dots for navigation
+            carouselItems.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                // Don't set active class here initially, it will be set by showSlide(0) later
+                carouselDots.appendChild(dot);
+                dot.addEventListener('click', () => showSlide(index));
+            });
+            const dots = document.querySelectorAll('.dot');
+
+            function showSlide(index) {
+                if (index >= carouselItems.length) {
+                    currentIndex = 0;
+                } else if (index < 0) {
+                    currentIndex = carouselItems.length - 1;
+                } else {
+                    currentIndex = index;
+                }
+
+                carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                // Update active dot
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            function nextSlide() {
+                showSlide(currentIndex + 1);
+                resetAutoSlide();
+            }
+
+            function prevSlide() {
+                showSlide(currentIndex - 1);
+                resetAutoSlide();
+            }
+
+            // Auto-slide functionality
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, slideDuration);
+            }
+
+            function resetAutoSlide() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+
+            // --- Envelope Screen Logic ---
+            envelopeScreen.addEventListener('click', () => {
+                envelopeScreen.classList.add('fade-out'); // Start fade-out animation
+                createHeartRain(); // Start heart rain effect
+                
+                // After envelope fades out, hide it completely
+                setTimeout(() => {
+                    envelopeScreen.style.display = 'none'; // Hide envelope completely
+                    // Play music when envelope is dismissed
+                    bgMusic.play().catch(error => {
+                        console.log("Music playback failed:", error);
+                        playMusicBtn.style.display = 'block'; // Show play button if playback fails
+                    });
+
+                    // Start main content animations AFTER envelope is gone
+                    typedMessageElement.classList.add('typing-text');
+                    typeWriter(); // Start typing immediately
+                    showSlide(0); // Ensure carousel is at first slide and updates dots
+                    startAutoSlide(); // Start auto-sliding
+
+                }, 1000); // Match CSS transition duration
+            });
+
+            // --- Music Autoplay Fallback ---
+            playMusicBtn.addEventListener('click', () => {
+                bgMusic.play();
+                playMusicBtn.style.display = 'none'; // Hide button once played
+            });
+
+            // --- Heart Rain Effect ---
+            function createHeartRain() {
+                const numHearts = 50; // Number of hearts to fall
+                for (let i = 0; i < numHearts; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤️'; // Heart emoji
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's'; // 2-5 seconds
+                    heart.style.animationDelay = (Math.random() * 2) + 's'; // Staggered delay
+                    heart.style.opacity = Math.random() * 0.5 + 0.5; // Random opacity
+                    document.body.appendChild(heart);
+
+                    heart.addEventListener('animationend', () => {
+                        heart.remove();
+                    });
+                }
+            }
+
+            // --- Love Trail Cursor Effect ---
+            function createTrailHeart(x, y) {
+                const trailHeart = document.createElement('div');
+                trailHeart.classList.add('trail-heart');
+                trailHeart.innerHTML = '❤️'; // Emoji hati
+                trailHeart.style.left = `${x}px`;
+                trailHeart.style.top = `${y}px`;
+                document.body.appendChild(trailHeart);
+
+                // Hapus elemen setelah animasinya selesai
+                trailHeart.addEventListener('animationend', () => {
+                    trailHeart.remove();
+                });
+            }
+
+            // Event listener untuk mouse (desktop)
+            document.addEventListener('mousemove', (e) => {
+                createTrailHeart(e.pageX, e.pageY);
+            });
+
+            // Event listener untuk sentuhan (mobile)
+            document.addEventListener('touchmove', (e) => {
+                // Prevent default touch behavior like scrolling to allow the trail effect to be more prominent
+                // e.preventDefault(); // Uncomment if you want to disable scrolling while touching for trail effect
+                if (e.touches.length > 0) {
+                    createTrailHeart(e.touches[0].pageX, e.touches[0].pageY);
+                }
+            });
+
+
+            // --- Gemini API Integration: Generate Reason ---
+            const generateReasonBtn = document.getElementById('generateReasonBtn');
+            const geminiReasonOutput = document.getElementById('geminiReasonOutput');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+
+            generateReasonBtn.addEventListener('click', async () => {
+                geminiReasonOutput.textContent = ''; // Clear previous content
+                loadingIndicator.classList.remove('hidden'); // Show loading indicator
+
+                const prompt = "Berikan satu alasan romantis dan menyentuh hati mengapa seseorang mencintai pasangannya, dalam satu atau dua kalimat pendek. Fokus pada hal-hal kecil atau perasaan mendalam.";
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                // API key Anda yang disediakan secara eksplisit
+                const apiKey = "AIzaSyCueMUtzyhMHAbwIN1yjMBagzSd7OHBe70"; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        geminiReasonOutput.textContent = text;
+                    } else {
+                        geminiReasonOutput.textContent = "Maaf, tidak dapat menghasilkan alasan romantis saat ini. Coba lagi!";
+                        console.error("Unexpected API response structure:", result);
+                    }
+                } catch (error) {
+                    geminiReasonOutput.textContent = "Terjadi kesalahan saat menghubungi AI. Silakan coba lagi nanti.";
+                    console.error("Error calling Gemini API:", error);
+                } finally {
+                    loadingIndicator.classList.add('hidden'); // Hide loading indicator
+                }
+            });
+
+            // --- Surprise Button & Blooming Flowers Logic ---
+            const surpriseBtn = document.getElementById('surpriseBtn');
+            const surpriseContent = document.getElementById('surpriseContent');
+            const roseBouquetAnimationDiv = document.getElementById('rose-bouquet-animation'); // Get the rose animation div
+            let bloomingFlowerInterval;
+            // Mengganti emoji yang bermasalah dengan emoji bunga yang valid
+            const flowerEmojis = ['🌸', '🌺', '🌼', '🌷', '🌻']; 
+
+            surpriseBtn.addEventListener('click', () => {
+                surpriseBtn.style.display = 'none';
+                showCountdown(() => {
+                    showRoseBouquetAnimation(() => {
+                        surpriseContent.style.display = 'block';
+                        surpriseContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        startBloomingFlowers();
+                    });
+                });
+            });
+
+            function createBloomingFlower() {
+                const flower = document.createElement('div');
+                flower.classList.add('blooming-flower');
+                flower.innerHTML = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)]; // Pilih emoji bunga acak
+                flower.style.left = Math.random() * 100 + 'vw'; // Posisi horizontal acak
+                flower.style.bottom = '-10px'; // Mulai dari bawah layar
+                flower.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Durasi 2-4 detik
+                flower.style.animationDelay = (Math.random() * 0.5) + 's'; // Penundaan acak
+                flower.style.color = `hsl(${Math.random() * 360}, 70%, 70%)`; // Warna acak
+                document.body.appendChild(flower);
+
+                // Hapus bunga setelah animasinya selesai
+                flower.addEventListener('animationend', () => {
+                    flower.remove();
+                });
+            }
+
+            function startBloomingFlowers() {
+                // Hasilkan bunga selama beberapa detik
+                let count = 0;
+                bloomingFlowerInterval = setInterval(() => {
+                    if (count < 50) { // Batasi jumlah bunga
+                        createBloomingFlower();
+                        count++;
+                    } else {
+                        clearInterval(bloomingFlowerInterval);
+                    }
+                }, 150); // Hasilkan bunga setiap 150ms
+            }
+
+            // Fungsi countdown
+            function showCountdown(callback) {
+                let countdown = 3;
+                const countdownDiv = document.createElement('div');
+                countdownDiv.id = 'countdown-effect';
+                countdownDiv.textContent = countdown;
+                document.body.appendChild(countdownDiv);
+
+                const interval = setInterval(() => {
+                    countdown--;
+                    if (countdown > 0) {
+                        countdownDiv.textContent = countdown;
+                    } else {
+                        countdownDiv.textContent = "🎉";
+                        setTimeout(() => {
+                            countdownDiv.remove();
+                            clearInterval(interval);
+                            if (callback) callback();
+                        }, 700);
+                    }
+                }, 900);
+            }
+
+            function showRoseBouquetAnimation(callback) {
+                const container = roseBouquetAnimationDiv; // Use the already defined div
+                container.innerHTML = '';
+                container.style.display = 'flex'; // Make it visible
+
+                // Satu tangkai di tengah
+                const centerRose = document.createElement('div');
+                centerRose.className = 'rose-stem center';
+                centerRose.innerHTML = '🌹';
+                container.appendChild(centerRose);
+
+                // Setelah 1 detik, munculkan tangkai-tangkai lain di sekelilingnya
+                setTimeout(() => {
+                    const positions = [
+                        { x: -80, y: -40, r: -18 },
+                        { x: 80, y: -40, r: 18 },
+                        { x: -60, y: 40, r: -10 },
+                        { x: 60, y: 40, r: 10 },
+                        { x: 0, y: -90, r: 0 },
+                    ];
+                    positions.forEach((pos, i) => {
+                        setTimeout(() => {
+                            const rose = document.createElement('div');
+                            rose.className = 'rose-stem bloom';
+                            rose.innerHTML = '🌹';
+                            rose.style.left = `calc(50% + ${pos.x}px)`;
+                            rose.style.top = `calc(60% + ${pos.y}px)`;
+                            rose.style.transform = `translate(-50%, -50%) rotate(${pos.r}deg) scale(1)`;
+                            rose.style.opacity = '1';
+                            container.appendChild(rose);
+                        }, i * 200);
+                    });
+                }, 1000);
+
+                // Setelah 3 detik, hilangkan animasi dan lanjutkan callback (misal tampilkan pesan kejutan)
+                setTimeout(() => {
+                    container.style.display = 'none'; // Hide it again
+                    if (callback) callback();
+                }, 3200);
+            }
+        });
+    </script>
+</body>
+</html>
